@@ -58,4 +58,4 @@ def extract_number_from_element(driver, element):
             element_value = int(element)
             numbers.append(element_value)
         except ValueError:
-            print(f"Error converting price: {price_text}")
+            print(f"Error extracting the value.")
