@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
-class TestSetup:
+class DriverSetup:
 
     @classmethod
     def create_driver(cls):

@@ -2,7 +2,7 @@ import unittest
 
 import HtmlTestRunner
 
-from unit_tests.test_sort_menu import SearchFunctionality
+from unit_tests.test_sort_menu import SortFunctionality
 
 
 class TestSuite(unittest.TestCase):
@@ -22,15 +22,14 @@ class TestSuite(unittest.TestCase):
         #     ]
         # )
 
-        teste_de_rulat.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(SearchFunctionality))
-        # teste_de_rulat.addTest(
-        #     unittest.defaultTestLoader.loadTestsFromTestCase(Test_Alerts)
-        # )
+        teste_de_rulat.addTest(
+            unittest.defaultTestLoader.loadTestsFromTestCase(SortFunctionality)
+        )
 
         # cream raportul de executie
         runner = HtmlTestRunner.HTMLTestRunner(
             combine_reports=True,
-            report_title="Search Functionality Tests",
+            report_title="Sort Functionality Tests",
             report_name="Regression",
         )
 
