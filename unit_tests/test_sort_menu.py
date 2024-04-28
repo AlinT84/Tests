@@ -13,7 +13,7 @@ from sesiunea_11_12.tests.utils.constants import (
     ASCENDING_ORDER_OPTION,
     DESCENDIND_ORDER_OPTION,
     REVIEW_NB_OPTION,
-    RESULTS_BY_REVIEW_NB,
+    RESULTS_BY_REVIEWS,
 )
 
 
@@ -86,7 +86,7 @@ class SortFunctionality(unittest.TestCase):
 
         # Extract product prices after sorting
         sorted_results_by_reviews = extract_number_from_element(
-            self.driver, RESULTS_BY_REVIEW_NB
+            self.driver, RESULTS_BY_REVIEWS
         )
 
         # Validate sorting order (descending by review number)
