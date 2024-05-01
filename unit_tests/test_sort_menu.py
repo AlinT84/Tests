@@ -21,39 +21,38 @@ class SortFunctionality(unittest.TestCase):
 
     driver = None
 
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.driver = DriverSetup.create_driver()
-        cls.driver.get(URL)
 
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.driver.quit()
+    def setUp(self) -> None:
+        self.driver = DriverSetup.create_driver()
+        self.driver.get(URL)
+
+
+    def tearDownClass(self) -> None:
+        self.driver.quit()
 
     def test_select_ascending_price(self):
-        try:
-            search_term = "iphone 15 pro max"
-            perform_search(self.driver, search_term)
+        search_term = "iphone 15 pro max"
+        perform_search(self.driver, search_term)
 
-            wait_and_click_element(self.driver, SORTING_MENU)
-            wait_and_click_element(self.driver, ASCENDING_ORDER_OPTION)
-            time.sleep(3)
+        wait_and_click_element(self.driver, SORTING_MENU)
+        wait_and_click_element(self.driver, ASCENDING_ORDER_OPTION)
+        time.sleep(3)
 
-            # Extract product prices after sorting
-            sorted_prices = extract_product_prices(self.driver)
+        # Extract product prices after sorting
+        sorted_prices = extract_product_prices(self.driver)
 
-            is_ascending = sorted(sorted_prices)
+        is_ascending = sorted(sorted_prices)
 
-            # Assert that prices are in ascending order
-            self.assertListEqual(
-                sorted_prices,
-                is_ascending,
-                "Prices are not in ascending order after sorting",
-            )
+        # Assert that prices are in ascending order
+        self.assertListEqual(
+            sorted_prices,
+            is_ascending,
+            "Prices are not in ascending order after sorting",
+        )
 
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            raise
+        # except Exception as e:
+        #     print(f"An error occurred: {e}")
+        #     raise
 
     def test_select_descending_price(self):
         search_term = "iphone 15 pro max"
@@ -73,7 +72,7 @@ class SortFunctionality(unittest.TestCase):
         self.assertListEqual(
             sorted_prices,
             is_descending,
-            "Prices are not in ascending order after sorting",
+            "Prices are not in descending order after sorting",
         )
 
     def test_select_by_review_nb(self):

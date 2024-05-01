@@ -23,14 +23,13 @@ def perform_search(driver, search_term):
     WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located(PRODUCT_PRICES_ELEMENT)
     )
-    return driver.find_elements(*PRODUCT_PRICES_ELEMENT)
 
 
 def extract_product_prices(driver):
     try:
         # Wait for the presence of all elements matching the provided locator
         WebDriverWait(driver, 10).until(
-            EC.presence_of_all_elements_located(PRODUCT_PRICES_ELEMENT)
+            EC.visibility_of_element_located(PRODUCT_PRICES_ELEMENT)
         )
 
         # Find all elements matching the provided locator
@@ -43,12 +42,9 @@ def extract_product_prices(driver):
         for element in price_elements:
             # Get the text content of the element and preprocess it
             price_text = (
-                element.text.strip()  # Remove leading and trailing whitespace
-                .lower()  # Convert text to lowercase
-                .replace("lei", "")  # Remove occurrences of "lei"
+                element.text # Remove leading and trailing whitespace
                 .replace(".", "")  # Remove thousands separator
                 .replace(",", ".")  # Replace decimal separator with dot (for float conversion)
-                .strip()  # Remove any remaining whitespace
             )
 
             # Check if the price text is empty or invalid
