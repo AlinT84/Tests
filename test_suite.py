@@ -2,6 +2,7 @@ import unittest
 
 import HtmlTestRunner
 
+from unit_tests.test_correct_url_navigation import CorrectUrlNavigation
 from unit_tests.test_sort_menu import SortFunctionality
 
 
@@ -14,17 +15,16 @@ class TestSuite(unittest.TestCase):
         teste_de_rulat = unittest.TestSuite()
 
         # adaugam clasele de teste care vrem sa fie executate
-        # teste_de_rulat.addTests(
-        #     [
-        #         unittest.defaultTestLoader.loadTestsFromTestCase(Test_Alerts),
-        #         unittest.defaultTestLoader.loadTestsFromTestCase(Test_Keys),
-        #         unittest.defaultTestLoader.loadTestsFromTestCase(Login_functionality),
-        #     ]
-        # )
-
-        teste_de_rulat.addTest(
-            unittest.defaultTestLoader.loadTestsFromTestCase(SortFunctionality)
+        teste_de_rulat.addTests(
+            [
+                unittest.defaultTestLoader.loadTestsFromTestCase(SortFunctionality),
+                unittest.defaultTestLoader.loadTestsFromTestCase(CorrectUrlNavigation),
+            ]
         )
+
+        # teste_de_rulat.addTest(
+        #     unittest.defaultTestLoader.loadTestsFromTestCase(SortFunctionality)
+        # )
 
         # cream raportul de executie
         runner = HtmlTestRunner.HTMLTestRunner(

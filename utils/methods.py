@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from sesiunea_11_12.tests.utils.constants import (
-    PRODUCT_PRICES_ELEMENT,
+    PRICES,
     SEARCH_BOX,
     SEARCH_BUTTON,
 )
@@ -14,61 +14,60 @@ def wait_and_click_element(driver, locator):
     element.click()
 
 
+def wait_visible_and_click_element(driver, locator):
+    """Wait for an element to be visible and then click it."""
+    wait = WebDriverWait(driver, 10)
+    element = wait.until(EC.visibility_of_element_located(locator))
+    element.click()
+
+
 def perform_search(driver, search_term):
     search_box = driver.find_element(*SEARCH_BOX)
     search_box.clear()
     search_box.send_keys(search_term)
     search_button = driver.find_element(*SEARCH_BUTTON)
     search_button.click()
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located(PRODUCT_PRICES_ELEMENT)
-    )
+    WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located(PRICES))
 
 
 def extract_product_prices(driver):
-    try:
-        # Wait for the presence of all elements matching the provided locator
-        WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located(PRODUCT_PRICES_ELEMENT)
-        )
+    """
+    Extracts prices from a webpage, splits them into main and decimal parts,
+    stores them in a dictionary, and then formats the prices using the stored parts.
 
-        # Find all elements matching the provided locator
-        price_elements = driver.find_elements(*PRODUCT_PRICES_ELEMENT)
+    Parameters:
+        driver: Selenium WebDriver - The driver controlling the web browser.
 
-        # List to store extracted prices
-        prices = []
+    Returns:
+        list of str: A list containing formatted prices as strings.
+    """
 
-        # Iterate through each element and extract the price
-        for element in price_elements:
-            # Get the text content of the element and preprocess it
-            price_text = (
-                element.text # Remove leading and trailing whitespace
-                .replace(".", "")  # Remove thousands separator
-                .replace(",", ".")  # Replace decimal separator with dot (for float conversion)
-            )
+    # Wait for the presence of all elements matching the provided locator
+    price_elements = WebDriverWait(driver, 10).until(
+        EC.visibility_of_all_elements_located(PRICES)
+    )
 
-            # Check if the price text is empty or invalid
-            if not price_text:
-                continue  # Skip empty price texts
+    # List to store formatted prices
+    prices_as_float = []
 
-            try:
-                # Convert the preprocessed price text to a float value
-                price_value = float(price_text)
-                prices.append(
-                    price_value
-                )  # Append the converted price to the list of prices
-            except ValueError:
-                # Handle the case where price text cannot be converted to float
-                print(
-                    f"Error converting price: '{price_text}' is not a valid float value"
-                )
+    # Iterate through each price element
+    for element in price_elements:
+        # Extract the text of the price element
+        price_text = (
+            element.text.lower().replace("lei", "").strip()
+        )  # Get the text and remove "lei" and extra whitespace
 
-        return prices  # Return the list of extracted prices
+        # Split the price text into main and decimal parts
+        main_part, _, decimal_part = price_text.partition(",")
 
-    except Exception as e:
-        # Handle any exceptions that might occur during element extraction
-        print(f"Error extracting prices: {e}")
-        return []
+        # Format the price using the main and decimal parts
+        formatted_price = f"{main_part.replace('.', '')}.{decimal_part.strip()}"
+
+        # Append formatted price to the list
+        price_as_float = float(formatted_price)
+        prices_as_float.append(price_as_float)
+
+    return prices_as_float
 
 
 def extract_number_from_element(driver, element):
