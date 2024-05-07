@@ -1,4 +1,3 @@
-import time
 import unittest
 
 from sesiunea_11_12.tests.utils.constants import (

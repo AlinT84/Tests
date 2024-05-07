@@ -4,7 +4,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from sesiunea_11_12.tests.utils.constants import (
-    PRICES,
     SEARCH_BOX,
     SEARCH_BUTTON,
 )
@@ -12,8 +11,9 @@ from sesiunea_11_12.tests.utils.constants import (
 
 def wait_and_click_element(driver, locator):
     """Wait for an element to be clickable and then click it."""
-    wait = WebDriverWait(driver, 15)
+    wait = WebDriverWait(driver, 10)
     element = wait.until(EC.element_to_be_clickable(locator))
+    element = wait.until(EC.visibility_of_element_located(locator))
     element.click()
     time.sleep(3)
 
@@ -26,77 +26,60 @@ def perform_search(driver, search_term):
     search_button.click()
 
 
-def extract_product_prices(driver):
+def extract_data_from_elements(driver, locator, flow="default"):
     """
-    Extracts prices from a webpage, splits them into main and decimal parts,
-    stores them in a dictionary, and then formats the prices using the stored parts.
+    Extracts data from web elements based on the provided locator and flow.
 
     Parameters:
-        driver: Selenium WebDriver - The driver controlling the web browser.
+        driver: The WebDriver instance controlling the browser.
+        locator: A tuple representing the locator strategy (e.g., By.CSS_SELECTOR)
+                         and the locator value (e.g., ".price").
+        flow (optional): The specific flow for data extraction. Available options:
+            - "default": Extracts raw text from elements.
+            - "prices": Extracts prices, converts to float, and formats (removes "lei" and extra whitespace).
+            - "numbers": Extracts numbers, removes parentheses, and converts to integer.
 
     Returns:
-        list of str: A list containing formatted prices as strings.
+        A list containing extracted data (strings, floats, or integers).
     """
-    # time.sleep(3)
-    price_elements = WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located(PRICES)
-    )
-
-    # List to store formatted prices
-    prices_as_float = []
-
-    # Iterate through each price element
-    for element in price_elements:
-        # Extract the text of the price element
-        price_text = (
-            element.text.lower().replace("lei", "").strip()
-        )  # Get the text and remove "lei" and extra whitespace
-
-        # Split the price text into main and decimal parts
-        main_part, _, decimal_part = price_text.partition(",")
-
-        # Format the price using the main and decimal parts
-        formatted_price = f"{main_part.replace('.', '')}.{decimal_part.strip()}"
-
-        # Append formatted price to the list
-        price_as_float = float(formatted_price)
-        prices_as_float.append(price_as_float)
-
-    return prices_as_float
-
-
-def extract_number_from_element(driver, element):
     # Wait for the presence of all elements matching the provided locator
-
-    # Find all elements matching the provided locator
-    number_elements = WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located(element)
+    elements = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located(locator)
     )
 
-    # List to store extracted numbers
-    numbers = []
+    # List to store extracted data
+    extracted_data = []
 
-    # Iterate through each element and extract the number
-    for element in number_elements:
-        # Get the text content of the element
-        element_text = element.text.strip()
+    # Conditional logic based on the specified flow
+    if flow == "prices":
+        for element in elements:
+            # Extract and process price data and remove "lei" and extra whitespace
+            price_text = element.text.lower().replace("lei", "").strip()
 
-        # Skip processing if element text is empty
-        if not element_text:
-            continue  # Move to the next element
+            # Split the price text into main and decimal parts
+            main_part, _, decimal_part = price_text.partition(",")
 
-        # Handle non-empty element text
-        # Replace certain characters and patterns in the element text
-        cleaned_text = element_text.replace("(", "").replace(")", "").strip()
+            # Format the price using the main and decimal parts (as float)
+            formatted_price = f"{main_part.replace('.', '')}.{decimal_part.strip()}"
+            try:
+                price_value = float(formatted_price)
+                extracted_data.append(price_value)
+            except ValueError:
+                print(f"Error converting price to float: '{price_text}'")
+    elif flow == "numbers":
+        for element in elements:
+            # Extract and process number data
+            # Example specific processing for numbers (remove parentheses and convert to int)
+            number_text = element.text.strip().replace("(", "").replace(")", "")
+            try:
+                number_value = int(number_text)
+                extracted_data.append(number_value)
+            except ValueError:
+                print(f"Error converting number to int: '{number_text}'")
+    else:
+        # Default flow: extract raw text from elements
+        for element in elements:
+            # Extract raw text data
+            extracted_data.append(element.text.strip())
 
-        try:
-            # Convert the cleaned text to an integer
-            element_value = int(cleaned_text)
-            numbers.append(element_value)
-        except ValueError:
-            # Handle the case where the cleaned text cannot be converted to an integer
-            print(
-                f"Error converting to integer: '{cleaned_text}' is not a valid integer."
-            )
-
-    return numbers  # Return the list of extracted numbers
+    return extracted_data  # Return the list of extracted data

@@ -1,4 +1,3 @@
-import time
 import unittest
 
 from sesiunea_11_12.tests.utils.constants import (
@@ -7,13 +6,13 @@ from sesiunea_11_12.tests.utils.constants import (
     ASCENDING_ORDER_OPTION,
     DESCENDIND_ORDER_OPTION,
     REVIEW_NB_OPTION,
+    PRICES,
     RESULTS_BY_REVIEWS,
 )
 from sesiunea_11_12.tests.utils.methods import (
     wait_and_click_element,
     perform_search,
-    extract_product_prices,
-    extract_number_from_element,
+    extract_data_from_elements,
 )
 from sesiunea_11_12.tests.utils.setup import DriverSetup
 
@@ -37,7 +36,9 @@ class SortFunctionality(unittest.TestCase):
         wait_and_click_element(self.driver, ASCENDING_ORDER_OPTION)
 
         # Extract product prices after sorting
-        sorted_prices = extract_product_prices(self.driver)
+        sorted_prices = extract_data_from_elements(self.driver, PRICES, flow="prices")
+
+        # Validate sorting order
         is_ascending = sorted(sorted_prices)
 
         # Assert that prices are in ascending order
@@ -59,7 +60,7 @@ class SortFunctionality(unittest.TestCase):
         wait_and_click_element(self.driver, DESCENDIND_ORDER_OPTION)
 
         # Extract product prices after sorting
-        sorted_prices = extract_product_prices(self.driver)
+        sorted_prices = extract_data_from_elements(self.driver, PRICES, flow="prices")
 
         # Validate sorting order
         expected_descending_order = sorted(sorted_prices, reverse=True)
@@ -82,8 +83,8 @@ class SortFunctionality(unittest.TestCase):
         wait_and_click_element(self.driver, REVIEW_NB_OPTION)
 
         # Extract product prices after sorting
-        sorted_results_by_reviews = extract_number_from_element(
-            self.driver, RESULTS_BY_REVIEWS
+        sorted_results_by_reviews = extract_data_from_elements(
+            self.driver, RESULTS_BY_REVIEWS, flow="numbers"
         )
 
         # Validate sorting order (descending by review number)
