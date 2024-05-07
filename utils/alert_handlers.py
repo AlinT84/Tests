@@ -34,21 +34,6 @@ def handle_login_dialog(self):
 #
 #     MESAJE = (By.ID, "result")
 #
-#     # suprascriem metoda de setUp care va rula inainte de orice test
-#     def setUp(self) -> None:
-#         # self.service_chrome = Service(ChromeDriverManager().install())
-#         # self.driver = webdriver.Chrome(service=self.service_chrome)
-#         options = webdriver.ChromeOptions()
-#         options.add_argument("--headless")
-#         self.driver = webdriver.Chrome(options=options)
-#         self.driver.maximize_window()
-#         self.driver.get(self.LINK)
-#         self.driver.implicitly_wait(5)
-#
-#     # suprascriem metoda de tearDown care va rula dupa orice test
-#     def tearDown(self) -> None:
-#         self.driver.quit()
-#
 #     def click(self, locator):
 #         self.driver.find_element(*locator).click()
 #

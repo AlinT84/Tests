@@ -35,7 +35,10 @@ SORTING_MENU = (By.CSS_SELECTOR, ".sort-control-btn")
 ASCENDING_ORDER_OPTION = (By.XPATH, '//a[text()="Pret crescator"]')
 DESCENDIND_ORDER_OPTION = (By.XPATH, '//a[text()="Pret descrescator"]')
 REVIEW_NB_OPTION = (By.XPATH, '//a[text()="Nr. review-uri"]')
-RESULTS_BY_REVIEWS = (By.XPATH, '//span[@class="visible-xs-inline-block "]')
+RESULTS_BY_REVIEWS = (
+    By.XPATH,
+    '//div[@id="card_grid"]/descendant::span[@class="visible-xs-inline-block "]',
+)
 PRICES = (
     By.XPATH,
     '//div[@class="page-container"]/descendant::p[@class="product-new-price"]',

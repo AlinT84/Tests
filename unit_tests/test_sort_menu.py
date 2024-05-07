@@ -8,6 +8,7 @@ from sesiunea_11_12.tests.utils.constants import (
     DESCENDIND_ORDER_OPTION,
     REVIEW_NB_OPTION,
     RESULTS_BY_REVIEWS,
+    PRICES
 )
 from sesiunea_11_12.tests.utils.methods import (
     wait_and_click_element,
@@ -35,11 +36,9 @@ class SortFunctionality(unittest.TestCase):
 
         wait_and_click_element(self.driver, SORTING_MENU)
         wait_and_click_element(self.driver, ASCENDING_ORDER_OPTION)
-        time.sleep(3)
 
         # Extract product prices after sorting
         sorted_prices = extract_product_prices(self.driver)
-
         is_ascending = sorted(sorted_prices)
 
         # Assert that prices are in ascending order
@@ -59,7 +58,6 @@ class SortFunctionality(unittest.TestCase):
         # Click the sorting menu and select descending order
         wait_and_click_element(self.driver, SORTING_MENU)
         wait_and_click_element(self.driver, DESCENDIND_ORDER_OPTION)
-        time.sleep(5)
 
         # Extract product prices after sorting
         sorted_prices = extract_product_prices(self.driver)
@@ -83,7 +81,6 @@ class SortFunctionality(unittest.TestCase):
 
         wait_and_click_element(self.driver, SORTING_MENU)
         wait_and_click_element(self.driver, REVIEW_NB_OPTION)
-        time.sleep(3)
 
         # Extract product prices after sorting
         sorted_results_by_reviews = extract_number_from_element(

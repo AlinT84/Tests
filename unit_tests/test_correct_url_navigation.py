@@ -1,3 +1,4 @@
+import time
 import unittest
 
 from sesiunea_11_12.tests.utils.constants import (
@@ -13,7 +14,6 @@ from sesiunea_11_12.tests.utils.constants import (
     OFERTE_EMAG_BUTTON,
 )
 from sesiunea_11_12.tests.utils.methods import wait_and_click_element
-from sesiunea_11_12.tests.utils.methods import wait_visible_and_click_element
 from sesiunea_11_12.tests.utils.setup import DriverSetup
 
 
@@ -106,6 +106,21 @@ class CorrectUrlNavigation(unittest.TestCase):
         except AssertionError as e:
             print(f"Assertion Error: {e}")
 
+    def test_card_idei_button(self):
+        wait_and_click_element(self.driver, CARD_IDEI_BUTTON)
+        returned_url = self.driver.current_url
+        expected_url = (
+            "https://www.emag.ro/voucher/gift-card?ref=hdr_cardul-cu-milioane-de-idei"
+        )
+        try:
+            self.assertIn(
+                expected_url,
+                returned_url,
+                "The button did not returned the expected URL.",
+            )
+        except AssertionError as e:
+            print(f"Assertion Error: {e}")
+
     def test_rabla_button(self):
         wait_and_click_element(self.driver, RABLA_BUTTON)
         returned_url = self.driver.current_url
@@ -119,8 +134,8 @@ class CorrectUrlNavigation(unittest.TestCase):
         except AssertionError as e:
             print(f"Assertion Error: {e}")
 
-    def test_rabla_button(self):
-        wait_visible_and_click_element(self.driver, OFERTE_EMAG_BUTTON)
+    def test_oferte_emag_button(self):
+        wait_and_click_element(self.driver, OFERTE_EMAG_BUTTON)
         returned_url = self.driver.current_url
         expected_url = "https://www.emag.ro/nav/deals?ref=hdr_ofertele-emag"
         try:
