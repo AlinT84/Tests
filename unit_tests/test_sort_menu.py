@@ -8,7 +8,6 @@ from sesiunea_11_12.tests.utils.constants import (
     DESCENDIND_ORDER_OPTION,
     REVIEW_NB_OPTION,
     RESULTS_BY_REVIEWS,
-    PRICES
 )
 from sesiunea_11_12.tests.utils.methods import (
     wait_and_click_element,
