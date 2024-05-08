@@ -29,7 +29,7 @@ class TestSuite(unittest.TestCase):
         # cream raportul de executie
         runner = HtmlTestRunner.HTMLTestRunner(
             combine_reports=True,
-            report_title="Sort Functionality Tests",
+            report_title="Emag Functionality Tests",
             report_name="Regression",
         )
 

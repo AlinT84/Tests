@@ -13,7 +13,7 @@ from sesiunea_11_12.tests.utils.constants import (
     OFERTE_EMAG_BUTTON,
 )
 from sesiunea_11_12.tests.utils.methods import wait_and_click_element
-from sesiunea_11_12.tests.utils.setup import DriverSetup
+from sesiunea_11_12.tests.utils.driver_setup import DriverSetup
 
 
 class CorrectUrlNavigation(unittest.TestCase):

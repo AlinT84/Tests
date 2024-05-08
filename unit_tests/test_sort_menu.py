@@ -1,3 +1,4 @@
+import time
 import unittest
 
 from sesiunea_11_12.tests.utils.constants import (
@@ -14,7 +15,8 @@ from sesiunea_11_12.tests.utils.methods import (
     perform_search,
     extract_data_from_elements,
 )
-from sesiunea_11_12.tests.utils.setup import DriverSetup
+from sesiunea_11_12.tests.utils.driver_setup import DriverSetup
+from sesiunea_11_12.tests.utils.banner_handlers import handle_dialogs
 
 
 class SortFunctionality(unittest.TestCase):
@@ -24,6 +26,7 @@ class SortFunctionality(unittest.TestCase):
     def setUp(self) -> None:
         self.driver = DriverSetup.create_driver()
         self.driver.get(URL)
+        handle_dialogs(self.driver)
 
     def tearDown(self) -> None:
         self.driver.quit()
@@ -31,9 +34,15 @@ class SortFunctionality(unittest.TestCase):
     def test_select_ascending_price(self):
         search_term = "iphone 15 pro max"
         perform_search(self.driver, search_term)
+        time.sleep(3)
+        handle_dialogs(self.driver)
+        time.sleep(3)
 
         wait_and_click_element(self.driver, SORTING_MENU)
         wait_and_click_element(self.driver, ASCENDING_ORDER_OPTION)
+        time.sleep(3)
+        handle_dialogs(self.driver)
+        time.sleep(3)
 
         # Extract product prices after sorting
         sorted_prices = extract_data_from_elements(self.driver, PRICES, flow="prices")
@@ -54,10 +63,12 @@ class SortFunctionality(unittest.TestCase):
     def test_select_descending_price(self):
         search_term = "iphone 15 pro max"
         perform_search(self.driver, search_term)
+        handle_dialogs(self.driver)
 
         # Click the sorting menu and select descending order
         wait_and_click_element(self.driver, SORTING_MENU)
         wait_and_click_element(self.driver, DESCENDIND_ORDER_OPTION)
+        handle_dialogs(self.driver)
 
         # Extract product prices after sorting
         sorted_prices = extract_data_from_elements(self.driver, PRICES, flow="prices")
@@ -78,9 +89,11 @@ class SortFunctionality(unittest.TestCase):
     def test_select_by_review_nb(self):
         search_term = "iphone 15 pro max"
         perform_search(self.driver, search_term)
+        handle_dialogs(self.driver)
 
         wait_and_click_element(self.driver, SORTING_MENU)
         wait_and_click_element(self.driver, REVIEW_NB_OPTION)
+        handle_dialogs(self.driver)
 
         # Extract product prices after sorting
         sorted_results_by_reviews = extract_data_from_elements(

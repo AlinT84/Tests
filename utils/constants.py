@@ -27,7 +27,7 @@ OFERTE_EMAG_BUTTON = (
     By.XPATH,
     '//ul[@class="nav navbar-nav navbar-left "]/li/a[@title="Ofertele eMAG"]',
 )
-COOKIES_BUTTON = (By.XPATH, '//button[contains(text(),"Accept toate")]')
+COOKIES_BUTTON = (By.CSS_SELECTOR, '.js-accept.btn.btn-primary')
 LOGIN_X_BUTTON = (By.XPATH, '//button/i[@class="em em-close"]')
 SEARCH_BOX = (By.ID, "searchboxTrigger")
 SEARCH_BUTTON = (By.CLASS_NAME, "searchbox-submit-button")
