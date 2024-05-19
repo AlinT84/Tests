@@ -18,9 +18,6 @@ def wait_and_click_element(driver, locator):
     time.sleep(3)
 
 
-
-
-
 def perform_search(driver, search_term):
     search_box = driver.find_element(*SEARCH_BOX)
     search_box.clear()
